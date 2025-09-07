@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);  // Fix: Allow string or null
 
   useEffect(() => {
     async function fetchData() {
@@ -14,10 +13,10 @@ function App() {
         const jsonData = await res.json();
         setData(jsonData);
       } catch (err) {
-        if (err instanceof Error) {
+        if (err instanceof Error) {  // Fix: Type guard for 'unknown' err
           setError(err.message);
         } else {
-          setError(String(err));
+          setError('Unknown error');
         }
       } finally {
         setLoading(false);
@@ -28,13 +27,12 @@ function App() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
-  if (!data) return <p>No data found.</p>;
+  if (!data) return <p>No data available.</p>;
 
   return (
     <div>
       <h1>My App</h1>
       <pre>{JSON.stringify(data, null, 2)}</pre>
-      <Analytics />
     </div>
   );
 }
