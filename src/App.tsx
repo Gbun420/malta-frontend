@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   const [data, setData] = useState(null);
@@ -29,6 +30,7 @@ function App() {
     <div>
       <h1>My App</h1>
       <pre>{JSON.stringify(data, null, 2)}</pre>
+      <Analytics />
     </div>
   );
 }
