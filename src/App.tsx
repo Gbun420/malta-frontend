@@ -14,7 +14,11 @@ function App() {
         const jsonData = await res.json();
         setData(jsonData);
       } catch (err) {
-        setError(err.message);
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError(String(err));
+        }
       } finally {
         setLoading(false);
       }
